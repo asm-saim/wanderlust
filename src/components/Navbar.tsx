@@ -29,8 +29,8 @@ export default function Navbar() {
         <Image
           src="/assets/Wanderlast.png"
           alt="Wanderlast"
-          width={140}
-          height={28}
+          width={162}
+          height={24}
           className="h-6 w-auto md:h-7"
         />
       </div>

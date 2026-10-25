@@ -1,11 +1,18 @@
 import Navbar from "@/components/Navbar";
 import Banner from "@/components/Banner";
+import WhyChoose from "@/components/WhyChoose";
 
 export default function Home() {
   return (
-    <div className="flex h-dvh flex-col overflow-hidden">
-      <Navbar />
-      <Banner />
-    </div>
+    <>
+      {/* First fold: navbar + hero + search bar locked to exactly one viewport */}
+      <div className="flex h-dvh flex-col overflow-hidden">
+        <Navbar />
+        <Banner />
+      </div>
+
+      {/* Everything after the fold lives in normal document scroll */}
+      <WhyChoose />
+    </>
   );
 }
