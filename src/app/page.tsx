@@ -1,6 +1,8 @@
 import Navbar from "@/components/Navbar";
 import Banner from "@/components/Banner";
 import WhyChoose from "@/components/WhyChoose";
+import Testimonials from "@/components/Testimonials";
+import CallToAction from "@/components/CallToAction";
 
 export default function Home() {
   return (
@@ -13,6 +15,8 @@ export default function Home() {
 
       {/* Everything after the fold lives in normal document scroll */}
       <WhyChoose />
+      <Testimonials />
+      <CallToAction />
     </>
   );
 }
