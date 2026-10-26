@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Toaster, toast } from "@/components/ui/toast";
 
 const categories = ["Beach", "Mountain", "City Break", "Adventure", "Cultural", "Wildlife"];
 
@@ -34,7 +35,7 @@ const initialForm: FormState = {
 
 function LabeledField({ id, label, ...props }: { id: string; label: string } & React.ComponentProps<typeof Input>) {
   return (
-    <div className="space-y-1.5">
+    <div className="space-y-1">
       <label htmlFor={id} className="text-sm font-medium text-foreground">
         {label}
       </label>
@@ -51,20 +52,40 @@ export default function AddDestinationPage() {
     setForm((prev) => ({ ...prev, [field]: event.target.value }));
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    // Demo form — no backend wired up yet
     event.preventDefault();
     console.log("New travel package:", { ...form, category });
 
-    //
-    const res = await fetch("http://localhost:8000/add-destination", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(form),
-    });
-    const data = await res.json();
-    console.log(data);
+    try {
+      const res = await fetch("http://localhost:8000/add-destination", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      console.log(data);
+
+      if (res.ok) {
+        toast.add({
+          type: "success",
+          title: "Travel package added! 🎉",
+          description: `“${form.destinationName || "Your package"}” is now live — travelers can start booking it right away.`,
+        });
+      } else {
+        toast.add({
+          type: "error",
+          title: "Couldn't add the package",
+          description: `The server responded with ${res.status}. Please try again.`,
+        });
+      }
+    } catch {
+      toast.add({
+        type: "error",
+        title: "Couldn't reach the server",
+        description: "The booking API at localhost:8000 didn't respond. Check that it's running and try again.",
+      });
+    }
   };
 
   const handleCancel = () => {
@@ -73,14 +94,14 @@ export default function AddDestinationPage() {
   };
 
   return (
-    <main className="flex-1 px-4 py-10 md:px-8 md:py-14">
+    <main className="flex-1 px-4 py-6 md:px-8 md:py-8">
       <h1 className="font-display text-3xl text-foreground md:text-4xl">Add New Travel Package</h1>
 
       <form
         onSubmit={handleSubmit}
-        className="mx-auto mt-8 w-full max-w-3xl rounded-xl border border-border bg-white p-6 shadow-sm md:p-7"
+        className="mx-auto mt-6 w-full max-w-[614px] rounded-xl border border-border bg-white p-5 shadow-sm md:p-6"
       >
-        <div className="grid gap-4 md:gap-5">
+        <div className="grid gap-3 md:gap-4">
           <LabeledField
             id="destinationName"
             label="Destination Name"
@@ -90,7 +111,7 @@ export default function AddDestinationPage() {
             onChange={updateField("destinationName")}
           />
 
-          <div className="grid gap-4 md:grid-cols-2 md:gap-5">
+          <div className="grid gap-3 md:grid-cols-2 md:gap-4">
             <LabeledField
               id="country"
               label="Country"
@@ -98,7 +119,7 @@ export default function AddDestinationPage() {
               value={form.country}
               onChange={updateField("country")}
             />
-            <div className="space-y-1.5">
+            <div className="space-y-1">
               <label htmlFor="category" className="text-sm font-medium text-foreground">
                 Category
               </label>
@@ -120,7 +141,7 @@ export default function AddDestinationPage() {
             </div>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-2 md:gap-5">
+          <div className="grid gap-3 md:grid-cols-2 md:gap-4">
             <LabeledField
               id="price"
               label="Price (USD)"
@@ -156,7 +177,7 @@ export default function AddDestinationPage() {
             onChange={updateField("imageUrl")}
           />
 
-          <div className="space-y-1.5">
+          <div className="space-y-1">
             <label htmlFor="description" className="text-sm font-medium text-foreground">
               Description
             </label>
@@ -164,14 +185,14 @@ export default function AddDestinationPage() {
               id="description"
               rows={4}
               placeholder="Describe the travel experience..."
-              className="min-h-36 rounded-md border-transparent bg-muted/50 px-3 py-2 text-sm focus-visible:border-ring/50 focus-visible:ring-ring/20"
+              className="min-h-28 rounded-md border-transparent bg-muted/50 px-3 py-2 text-sm focus-visible:border-ring/50 focus-visible:ring-ring/20"
               value={form.description}
               onChange={updateField("description")}
             />
           </div>
         </div>
 
-        <div className="mt-6 flex justify-end gap-3">
+        <div className="mt-5 flex justify-end gap-3">
           <Button
             type="button"
             variant="outline"
@@ -188,6 +209,7 @@ export default function AddDestinationPage() {
           </Button>
         </div>
       </form>
+      <Toaster />
     </main>
   );
 }
