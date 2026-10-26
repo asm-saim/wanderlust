@@ -61,7 +61,7 @@ export default function AddDestinationPage() {
         headers: {
           "Content-type": "application/json",
         },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, category }),
       });
       const data = await res.json();
       console.log(data);
