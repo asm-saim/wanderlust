@@ -1,16 +1,14 @@
-import Navbar from "@/components/Navbar";
 import Banner from "@/components/Banner";
 import WhyChoose from "@/components/WhyChoose";
 import Testimonials from "@/components/Testimonials";
 import CallToAction from "@/components/CallToAction";
-import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
     <>
-      {/* First fold: navbar + hero + search bar locked to exactly one viewport */}
-      <div className="flex h-dvh flex-col overflow-hidden">
-        <Navbar />
+      {/* First fold: hero + search bar locked to the viewport below the
+          layout navbar (h-16 = 4rem), so the whole screen fits without scroll */}
+      <div className="flex h-[calc(100dvh-4rem)] flex-col overflow-hidden">
         <Banner />
       </div>
 
@@ -18,7 +16,6 @@ export default function Home() {
       <WhyChoose />
       <Testimonials />
       <CallToAction />
-      <Footer />
     </>
   );
 }

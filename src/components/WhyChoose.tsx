@@ -23,7 +23,7 @@ const features = [
 
 export default function WhyChoose() {
   return (
-    <section className="bg-gradient-to-b from-brand/10 to-white px-4 py-16 md:py-20">
+    <section className="bg-sky-100  px-4 py-16 md:py-20">
       <div className="mx-auto max-w-6xl text-center">
         <h2 className="font-display text-3xl text-foreground md:text-4xl lg:text-5xl">
           Why Choose Wanderlust
