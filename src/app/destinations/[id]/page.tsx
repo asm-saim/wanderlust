@@ -13,12 +13,12 @@ import {
   Pencil,
   RotateCw,
   Star,
-  X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Toaster, toast } from "@/components/ui/toast";
 import DestinationDetailSkeleton from "@/components/DestinationDetailSkeleton";
 import UpdatePackageModal from "@/components/UpdatePackageModal";
+import DeleteDestinationButton from "@/components/DeleteDestinationButton";
 
 type Destination = {
   _id: string;
@@ -167,14 +167,10 @@ export default function DestinationDetailPage() {
               <Pencil />
               Edit
             </Button>
-            <Button
-              variant="outline"
-              className="border-destructive/30 text-destructive hover:bg-destructive/10 hover:text-destructive"
-              render={<Link href="/destinations" />}
-            >
-              <X />
-              Cancel
-            </Button>
+            <DeleteDestinationButton
+              destinationId={destination?._id ?? null}
+              destinationName={destination?.destinationName}
+            />
           </div>
         </div>
 
