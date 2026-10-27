@@ -51,7 +51,7 @@ export default function Banner() {
         </div>
 
         {/* Search bar — pinned to the bottom edge of the hero */}
-        <div className="shrink-0 bg-black/40 backdrop-blur-sm">
+        <div className="shrink-0 bg-black/40 backdrop-blur-xs">
           <div className="flex flex-wrap items-stretch">
             {searchFields.map((field) => (
               <div
