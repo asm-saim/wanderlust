@@ -18,6 +18,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Toaster, toast } from "@/components/ui/toast";
 import DestinationDetailSkeleton from "@/components/DestinationDetailSkeleton";
+import UpdatePackageModal from "@/components/UpdatePackageModal";
 
 type Destination = {
   _id: string;
@@ -89,6 +90,7 @@ export default function DestinationDetailPage() {
   const [error, setError] = useState<LoadError | null>(null);
   const [reloadKey, setReloadKey] = useState(0);
   const [date, setDate] = useState("");
+  const [editOpen, setEditOpen] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -161,7 +163,7 @@ export default function DestinationDetailPage() {
           </Link>
 
           <div className="flex items-center gap-2">
-            <Button variant="outline" render={<a href="#" />}>
+            <Button variant="outline" onClick={() => setEditOpen(true)}>
               <Pencil />
               Edit
             </Button>
@@ -199,7 +201,7 @@ export default function DestinationDetailPage() {
         {!loading && !error && destination && (
           <>
             <div className="relative mt-6 aspect-[5/2] overflow-hidden rounded-xl">
-              <HeroImage destination={destination} />
+              <HeroImage key={destination.imageUrl} destination={destination} />
             </div>
 
             <div className="mt-6 grid gap-8 md:grid-cols-[minmax(0,1fr)_300px]">
@@ -280,6 +282,14 @@ export default function DestinationDetailPage() {
           </>
         )}
       </div>
+
+      {editOpen && destination && (
+        <UpdatePackageModal
+          destination={destination}
+          onOpenChange={setEditOpen}
+          onUpdated={() => setReloadKey((key) => key + 1)}
+        />
+      )}
 
       <Toaster />
     </main>

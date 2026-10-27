@@ -32,7 +32,7 @@ export default function Navbar() {
               key={link.label}
               href={link.href}
               aria-current={active ? "page" : undefined}
-              className={`text-sm font-semibold text-gray-500 transition-colors hover:text-brand ${
+              className={`text-sm font-semibold transition-colors hover:text-brand ${
                 active ? "text-brand" : "hidden text-foreground/80 md:inline"
               }`}
             >
@@ -50,7 +50,7 @@ export default function Navbar() {
         <Link
           href="/profile"
           aria-current={isActive("/profile") ? "page" : undefined}
-          className={`hidden items-center gap-1.5 text-sm font-semibold text-gray-500 transition-colors hover:text-brand md:flex ${
+          className={`hidden items-center gap-1.5 text-sm font-semibold transition-colors hover:text-brand md:flex ${
             isActive("/profile") ? "text-brand" : "text-foreground/80"
           }`}
         >
@@ -62,7 +62,7 @@ export default function Navbar() {
             key={link.label}
             href={link.href}
             aria-current={isActive(link.href) ? "page" : undefined}
-            className={`text-sm font-semibold text-gray-500  transition-colors hover:text-brand ${
+            className={`text-sm font-semibold transition-colors hover:text-brand ${
               isActive(link.href) ? "text-brand" : "text-foreground/80"
             }`}
           >
