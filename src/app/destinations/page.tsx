@@ -2,10 +2,11 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowUpRight, CalendarDays, MapPin, RotateCw, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import DestinationsSkeleton from "@/components/DestinationsSkeleton";
 
 type Destination = {
   _id: string;
@@ -86,13 +87,13 @@ function DestinationCard({ destination }: { destination: Destination }) {
           {destination.duration}
         </p>
 
-        <a
-          href="#"
+        <Link
+          href={`/destinations/${destination._id}`}
           className="mt-3 inline-flex items-center gap-1 text-xs font-bold tracking-wide text-brand uppercase hover:underline"
         >
           Book Now
           <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
-        </a>
+        </Link>
       </div>
     </article>
   );
@@ -220,21 +221,7 @@ export default function DestinationsPage() {
           Showing {filtered.length} destination{filtered.length === 1 ? "" : "s"}
         </p>
 
-        {loading && (
-          <div className="mt-4 grid gap-4 sm:grid-cols-2 md:mt-5 lg:grid-cols-3">
-            {Array.from({ length: 6 }).map((_, index) => (
-              <div key={index} className="overflow-hidden rounded-lg border border-border bg-white">
-                <Skeleton className="aspect-[16/9] w-full rounded-none" />
-                <div className="space-y-2 p-4">
-                  <Skeleton className="h-3.5 w-2/3" />
-                  <Skeleton className="h-5 w-3/4" />
-                  <Skeleton className="h-3.5 w-1/2" />
-                  <Skeleton className="h-3.5 w-20" />
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+        {loading && <DestinationsSkeleton />}
 
         {!loading && error && (
           <div className="mt-10 flex flex-col items-center gap-4 text-center">
