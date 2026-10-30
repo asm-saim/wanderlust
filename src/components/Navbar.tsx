@@ -1,9 +1,10 @@
 "use client";
-
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { UserRound } from "lucide-react";
+import { authClient } from "@/lib/auth-client";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -13,12 +14,16 @@ const navLinks = [
 ];
 
 const rightLinks = [
-  { label: "Login", href: "/login" },
-  { label: "Sign Up", href: "/signup" },
+  { label: "Login", href: "/log_in" },
+  { label: "Sign Up", href: "/sign_up" },
 ];
 
 export default function Navbar() {
   const pathname = usePathname();
+
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
+  console.log(user);
 
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
@@ -57,6 +62,11 @@ export default function Navbar() {
           <UserRound className="h-4 w-4" aria-hidden="true" />
           Profile
         </Link>
+
+        <Avatar>
+          <AvatarImage referrerPolicy="no-referrer" src={user?.image as string} />
+          <AvatarFallback>{user?.name.charAt(0)}</AvatarFallback>
+        </Avatar>
         {rightLinks.map((link) => (
           <Link
             key={link.label}

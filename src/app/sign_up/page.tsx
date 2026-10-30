@@ -68,8 +68,9 @@ export default function SignUpForm() {
               </Field>
               <Field>
                 <FieldLabel htmlFor="image">Image</FieldLabel>
-                <Input id="image" name="image" type="url" placeholder="Image URL" required />
+                <Input id="image" name="image" type="url" placeholder="Image URL" />
               </Field>
+
               <Field>
                 <FieldLabel htmlFor="email">Email</FieldLabel>
                 <Input id="email" name="email" type="email" placeholder="m@example.com" required />
