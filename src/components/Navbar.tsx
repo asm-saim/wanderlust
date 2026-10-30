@@ -6,6 +6,16 @@ import { UserRound } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
+import {
+  Popover,
+  PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Button } from "./ui/button";
+
 const navLinks = [
   { label: "Home", href: "/" },
   { label: "Destinations", href: "/destinations" },
@@ -26,6 +36,10 @@ export default function Navbar() {
   console.log(user);
 
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
+
+  const handleSignOut = async () => {
+    await authClient.signOut();
+  };
 
   return (
     <header className="relative z-20 flex h-16 shrink-0 items-center justify-between border-b border-black/5 bg-white px-4 shadow-sm md:px-6">
@@ -62,23 +76,40 @@ export default function Navbar() {
           <UserRound className="h-4 w-4" aria-hidden="true" />
           Profile
         </Link>
-
-        <Avatar>
-          <AvatarImage referrerPolicy="no-referrer" src={user?.image as string} />
-          <AvatarFallback>{user?.name.charAt(0)}</AvatarFallback>
-        </Avatar>
-        {rightLinks.map((link) => (
-          <Link
-            key={link.label}
-            href={link.href}
-            aria-current={isActive(link.href) ? "page" : undefined}
-            className={`text-sm font-semibold transition-colors hover:text-brand ${
-              isActive(link.href) ? "text-brand" : "text-foreground/80"
-            }`}
-          >
-            {link.label}
-          </Link>
-        ))}
+        {user ? (
+          <Popover>
+            <PopoverTrigger
+              render={
+                <Avatar>
+                  <AvatarImage referrerPolicy="no-referrer" src={user.image ?? undefined} />
+                  <AvatarFallback>{user.name?.charAt(0)?.toUpperCase() ?? "U"}</AvatarFallback>
+                </Avatar>
+              }
+            />
+            <PopoverContent>
+              <PopoverHeader>
+                <PopoverTitle>{user.name}</PopoverTitle>
+                <PopoverDescription>{user.email}</PopoverDescription>
+                <Button onClick={handleSignOut} variant="destructive">
+                  Sign Out
+                </Button>
+              </PopoverHeader>
+            </PopoverContent>
+          </Popover>
+        ) : (
+          rightLinks.map((link) => (
+            <Link
+              key={link.label}
+              href={link.href}
+              aria-current={isActive(link.href) ? "page" : undefined}
+              className={`text-sm font-semibold transition-colors hover:text-brand ${
+                isActive(link.href) ? "text-brand" : "text-foreground/80"
+              }`}
+            >
+              {link.label}
+            </Link>
+          ))
+        )}
       </div>
     </header>
   );

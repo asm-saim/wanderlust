@@ -7,6 +7,8 @@ import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { redirect } from "next/navigation";
 
+
+
 export default function SignUpForm() {
   const handleEmailSignUp = async (e: React.SubmitEvent<HTMLElement>) => {
     e.preventDefault();
